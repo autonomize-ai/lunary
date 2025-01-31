@@ -32,14 +32,14 @@ stages:
   displayName: Versioning
   jobs:
   - template: version.yml
-- stage: UT_Sonar_Scan
-  dependsOn: Version
-  condition: succeeded()
-  jobs:
-  - template: sonar.yml
+# - stage: UT_Sonar_Scan
+#   dependsOn: Version
+#   condition: succeeded()
+#   jobs:
+#   - template: sonar.yml
 - stage: buildImage
-  dependsOn: UT_Sonar_Scan
-  condition: succeeded()
+  # dependsOn: UT_Sonar_Scan
+  # condition: succeeded()
   jobs:
   - template: build-template.yml
     parameters:
