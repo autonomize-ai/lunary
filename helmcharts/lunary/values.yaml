@@ -1,0 +1,79 @@
+# Default values for lunary.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Global configurations
+global:
+  environment: production
+
+# Frontend specific configurations
+frontend:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: "sprintregistry.azurecr.io/lunary-frontend"
+    tag: ""
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Backend specific configurations
+backend:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: "sprintregistry.azurecr.io/lunary-backend"
+    tag: ""
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 4000
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+
+# Common configurations
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  automount: true
+  name: "genesis-platform-sa"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: lunary.sprint.autonomize.dev
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 3000
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: backend
+              port:
+                number: 4000

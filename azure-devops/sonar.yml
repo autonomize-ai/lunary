@@ -1,0 +1,33 @@
+jobs:
+- job: UtSonarScan
+  displayName: Unit testing and Sonar scans
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - checkout: self
+    submodules: true
+    persistCredentials: true
+
+
+  - task: SonarQubePrepare@7
+    inputs:
+      SonarQube: 'sonarqube-sprint'
+      scannerMode: 'cli'
+      configMode: 'manual'
+      cliProjectKey: 'autonomize-ai_lunary_AZSmkf1oTMqNrBl7Nu8K'
+      cliSources: '.'
+      extraProperties: |
+        # Additional properties that will be passed to the scanner, 
+        # Put one key=value per line, example:
+        # sonar.exclusions=**/*.bin
+        sonar.python.coverage.reportPaths=coverage.xml
+        sonar.scanner.metadataFilePath=$(Agent.TempDirectory)/sonar/$(Build.BuildNumber)/test/report-task.txt
+  - task: SonarQubeAnalyze@7
+    inputs:
+      jdkversion: 'JAVA_HOME_17_X64'
+  - task: SonarQubePublish@7
+    inputs:
+      pollingTimeoutSec: '300'
+  - task: sonar-buildbreaker@8
+    inputs:
+      SonarQube: 'sonarqube-sprint'
