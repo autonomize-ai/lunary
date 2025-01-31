@@ -7,9 +7,9 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - checkout: self
-    submodules: true
-    persistCredentials: true
+  # - checkout: self
+  #   submodules: true
+  #   persistCredentials: true
   - task: Docker@2
     displayName: Build image
     inputs:

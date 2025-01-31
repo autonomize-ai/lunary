@@ -8,9 +8,9 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - checkout: self
-    submodules: true
-    persistCredentials: true
+  # - checkout: self
+  #   submodules: true
+  #   persistCredentials: true
   - task: HelmInstaller@1
     displayName: Install Helm
     inputs:

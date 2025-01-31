@@ -14,11 +14,11 @@ jobs:
       matrix:
         service: [backend, frontend, realtime-evaluators]
     steps:
-      - name: Check out the private Ops repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          submodules: "recursive"
+      # - name: Check out the private Ops repo
+      #   uses: actions/checkout@v4
+      #   with:
+      #     token: ${{ secrets.GH_TOKEN }}
+      #     submodules: "recursive"
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3

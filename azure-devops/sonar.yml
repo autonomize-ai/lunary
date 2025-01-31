@@ -4,9 +4,9 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  - checkout: self
-    submodules: true
-    persistCredentials: true
+  # - checkout: self
+  #   submodules: true
+  #   persistCredentials: true
 
 
   - task: SonarQubePrepare@7
