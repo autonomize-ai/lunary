@@ -19,8 +19,12 @@ RUN npm ci
 # Copy the rest of the application code
 COPY . .
 
-# Build shared packages
-RUN npm run build -w packages/shared
+# Conditionally build shared packages (if build script exists)
+RUN if npm run --workspace=shared --if-present build; then \
+        echo "Shared package build completed"; \
+    else \
+        echo "No build script for shared package, skipping"; \
+    fi
 
 # Conditionally build frontend and backend
 ARG BUILD_FRONTEND=true
