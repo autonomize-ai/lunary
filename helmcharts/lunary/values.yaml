@@ -11,7 +11,7 @@ frontend:
   enabled: true
   replicaCount: 2
   image:
-    repository: "sprintregistry.azurecr.io/lunary-frontend"
+    repository: "sprintregistry.azurecr.io/lunary"
     tag: ""
     pullPolicy: IfNotPresent
   service:
@@ -30,7 +30,7 @@ backend:
   enabled: true
   replicaCount: 2
   image:
-    repository: "sprintregistry.azurecr.io/lunary-backend"
+    repository: "sprintregistry.azurecr.io/lunary"
     tag: ""
     pullPolicy: IfNotPresent
   service:

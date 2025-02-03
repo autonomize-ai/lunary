@@ -1,18 +1,14 @@
 parameters:
   - name: CONTAINER_NAME
   - name: AZURE_CONTAINER_REGISTRY
-  - name: DATABASE_URL
-    type: string
-    default: 'postgresql://postgres:7HrX26sHIZz8yffytPc0@autonomize-database-1002.cwpqzu4drrfr.us-east-1.rds.amazonaws.com:5432/lunary'
-  
+
 jobs:
 - job: BuildAndPush
   pool:
     vmImage: 'ubuntu-latest'
   steps:
-  # - checkout: self
-  #   submodules: true
-  #   persistCredentials: true
+  - checkout: self
+    persistCredentials: true
   - task: Docker@2
     displayName: Build image
     inputs:
