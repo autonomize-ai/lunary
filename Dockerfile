@@ -37,19 +37,6 @@ ARG BUILD_BACKEND=true
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
 
-# Extensive debugging and validation steps
-RUN echo "Full Database URL: $DATABASE_URL"
-RUN echo "Database URL length: ${#DATABASE_URL}"
-
-# Validate database URL with more flexible regex and detailed error reporting
-RUN if echo "$DATABASE_URL" | grep -qvE '^postgresql://'; then \
-        echo "ERROR: Database URL must start with postgresql://" && \
-        echo "$DATABASE_URL" && \
-        exit 1; \
-    fi
-
-RUN echo "Database URL validation passed"
-
 RUN if [ "$BUILD_FRONTEND" = "true" ]; then npm run build:frontend; fi
 
 # Expose ports for backend and frontend
