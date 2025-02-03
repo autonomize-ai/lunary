@@ -16,8 +16,6 @@ jobs:
       repository: '${{ parameters.CONTAINER_NAME }}'
       containerRegistry: '${{ parameters.AZURE_CONTAINER_REGISTRY }}'
       dockerfile: '**/Dockerfile'
-      buildArgs: |
-        DATABASE_URL=${{ parameters.DATABASE_URL }}
       tags: |
         $(Build.BuildNumber)
         $(Build.SourceBranchName)
