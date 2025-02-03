@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: lunary-frontend
   labels:
-    app: frontend
+    app: lunary-frontend
     {{- include "lunary.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.frontend.service.type }}
@@ -14,7 +14,7 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: frontend
+    app: lunary-frontend
     {{- include "lunary.selectorLabels" . | nindent 4 }}
 {{- end }}
 ---
@@ -23,9 +23,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: lunary-backend
   labels:
-    app: backend
+    app: lunary-backend
     {{- include "lunary.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.backend.service.type }}
@@ -35,6 +35,6 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app: backend
+    app: lunary-backend
     {{- include "lunary.selectorLabels" . | nindent 4 }}
 {{- end }}
