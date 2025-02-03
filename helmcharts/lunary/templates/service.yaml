@@ -1,5 +1,4 @@
-{{- if .Values.frontend.enabled }}
----
+{{- if and (eq .Release.Name "lunary-frontend") (.Values.frontend.enabled) }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -18,9 +17,9 @@ spec:
     app: frontend
     {{- include "lunary.selectorLabels" . | nindent 4 }}
 {{- end }}
-
-{{- if .Values.backend.enabled }}
 ---
+
+{{- if and (eq .Release.Name "lunary-backend") (.Values.backend.enabled) }}
 apiVersion: v1
 kind: Service
 metadata:

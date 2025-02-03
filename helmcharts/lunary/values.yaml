@@ -6,9 +6,15 @@
 global:
   environment: production
 
+service:
+  port: 4000  # Default backend port
+
+autoscaling:
+  enabled: false
 # Frontend specific configurations
 frontend:
   enabled: true
+  ingress: true
   replicaCount: 2
   image:
     repository: "sprintregistry.azurecr.io/lunary"
