@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.version }}"
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.Version }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
           ports:
             - name: http
