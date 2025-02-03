@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "lunary.fullname" . }}-frontend
+  name: {{ include "lunary.fullname" . }}
   labels:
     app: frontend
     {{- include "lunary.labels" . | nindent 4 }}
@@ -36,7 +36,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "lunary.fullname" . }}-backend
+  name: {{ include "lunary.fullname" . }}
   labels:
     app: backend
     {{- include "lunary.labels" . | nindent 4 }}
