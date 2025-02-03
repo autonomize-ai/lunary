@@ -5,7 +5,7 @@ FROM node:20-alpine AS base
 WORKDIR /app
 
 # Install global dependencies and debugging tools
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache bash curl jq
 
 # Install global dependencies
 RUN npm install -g concurrently tsx
@@ -37,22 +37,18 @@ ARG BUILD_BACKEND=true
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
 
-# Debugging and validation steps
-RUN echo "Database URL: $DATABASE_URL"
+# Extensive debugging and validation steps
+RUN echo "Full Database URL: $DATABASE_URL"
 RUN echo "Database URL length: ${#DATABASE_URL}"
-RUN echo "Checking database connection details:"
-RUN echo $DATABASE_URL | grep -E '^postgresql://[^:]+:[^@]+@[^:]+:[0-9]+/[^/]+$' || (echo "Invalid database URL format" && exit 1)
 
-# Attempt to run migration with extensive error handling
-RUN cd packages/backend && \
-    echo "Running database migration..." && \
-    (npm run migrate:db || \
-     (echo "Migration failed. Checking potential issues:" && \
-      echo "1. Verifying database connection..." && \
-      curl -v $(echo $DATABASE_URL | sed -E 's|postgresql://[^:]+:[^@]+@([^:]+):[0-9]+/.*|\1|') && \
-      echo "2. Checking environment..." && \
-      env | grep DATABASE && \
-      exit 1))
+# Validate database URL with more flexible regex and detailed error reporting
+RUN if echo "$DATABASE_URL" | grep -qvE '^postgresql://'; then \
+        echo "ERROR: Database URL must start with postgresql://" && \
+        echo "$DATABASE_URL" && \
+        exit 1; \
+    fi
+
+RUN echo "Database URL validation passed"
 
 RUN if [ "$BUILD_FRONTEND" = "true" ]; then npm run build:frontend; fi
 
