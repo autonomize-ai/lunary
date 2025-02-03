@@ -2,10 +2,10 @@
   "name": "@lunary/backend",
   "main": "index.ts",
   "scripts": {
-    "start": "tsx src/index.ts",
+    "start:backend": "tsx src/index.ts",
+    "start:frontend": "cd ../frontend && npm run start",
     "start:realtime-evaluators": "tsx src/realtime-evaluators.ts",
     "dev:realtime-evaluators": "tsx --env-file=.env --watch src/realtime-evaluators.ts",
-    "migrate:db": "npx tsx src/migrate.ts && npm run migrate:db",
     "dev": "tsx --env-file=.env --watch src/index.ts",
     "test": "tsx src/index.ts"
   },

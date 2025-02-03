@@ -11,6 +11,7 @@ service:
 
 autoscaling:
   enabled: false
+
 # Frontend specific configurations
 frontend:
   enabled: true
@@ -26,10 +27,10 @@ frontend:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 128Mi
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 250m
+      memory: 256Mi
 
 # Backend specific configurations
 backend:
@@ -44,11 +45,11 @@ backend:
     port: 4000
   resources:
     requests:
-      cpu: 200m
-      memory: 512Mi
+      cpu: 100m
+      memory: 128Mi
     limits:
-      cpu: 1
-      memory: 1Gi
+      cpu: 250m
+      memory: 256Mi
 
 # Common configurations
 imagePullSecrets: []
@@ -69,17 +70,10 @@ ingress:
   hosts:
     - host: lunary.sprint.autonomize.dev
       paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: frontend
-              port:
-                number: 3000
         - path: /api
           pathType: Prefix
-          backend:
-            service:
-              name: backend
-              port:
-                number: 4000
+          serviceName: backend
+        - path: /
+          pathType: Prefix
+          serviceName: frontend
+  tls: []

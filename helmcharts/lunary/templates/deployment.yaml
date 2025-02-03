@@ -5,28 +5,34 @@ kind: Deployment
 metadata:
   name: {{ include "lunary.fullname" . }}
   labels:
-    app: frontend
+    app: lunary-frontend
     {{- include "lunary.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
   selector:
     matchLabels:
-      app: frontend
+      app: lunary-frontend
       {{- include "lunary.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: frontend
-        {{- include "lunary.labels" . | nindent 8 }}
+        app: lunary-frontend
+        {{- include "lunary.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: frontend
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Chart.Version }}"
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args: 
+            - |
+              npm run start:frontend
           ports:
             - name: http
-              containerPort: {{ .Values.frontend.service.port }}
-              protocol: TCP
+              containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.global.environment }}
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
 {{- end }}
@@ -38,28 +44,39 @@ kind: Deployment
 metadata:
   name: {{ include "lunary.fullname" . }}
   labels:
-    app: backend
+    app: lunary-backend
     {{- include "lunary.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.backend.replicaCount }}
   selector:
     matchLabels:
-      app: backend
+      app: lunary-backend
       {{- include "lunary.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: backend
-        {{- include "lunary.labels" . | nindent 8 }}
+        app: lunary-backend
+        {{- include "lunary.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: backend
-          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.version }}"
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.Version }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          command: ["/bin/sh", "-c"]
+          args: 
+            - |
+              npm run start:backend
           ports:
             - name: http
-              containerPort: {{ .Values.backend.service.port }}
-              protocol: TCP
+              containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: {{ .Values.global.environment }}
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database-credentials
+                  key: DATABASE_URL
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
 {{- end }}
