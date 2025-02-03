@@ -30,11 +30,12 @@ RUN if npm run --workspace=shared --if-present build; then \
 ARG BUILD_FRONTEND=true
 ARG BUILD_BACKEND=true
 
-RUN if [ "$BUILD_FRONTEND" = "true" ]; then npm run build:frontend; fi
-RUN if [ "$BUILD_BACKEND" = "true" ]; then npm run build:backend; fi
+# Database configuration
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
-# Migrate database (only if backend is being built)
-RUN if [ "$BUILD_BACKEND" = "true" ]; then npm run migrate:db; fi
+RUN if [ "$BUILD_FRONTEND" = "true" ]; then npm run build:frontend; fi
+RUN if [ "$BUILD_BACKEND" = "true" ]; then npm run migrate:db -w packages/backend; fi
 
 # Expose ports for backend and frontend
 EXPOSE 3000 4000
