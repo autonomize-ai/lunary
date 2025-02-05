@@ -10,7 +10,7 @@ import redirections from "./api/v1/redirections";
 import webhooks from "./api/webhooks";
 import { corsMiddleware } from "./utils/cors";
 import { setupCronJobs } from "./utils/cron";
-import sql, { checkDbConnection } from "./utils/db";
+import sql, { testDatabaseConnection } from "./utils/db";
 import { errorMiddleware } from "./utils/errors";
 import { setDefaultBody } from "./utils/misc";
 import ratelimit from "./utils/ratelimit";
@@ -20,7 +20,7 @@ import config from "./utils/config";
 import { startMaterializedViewRefreshJob } from "./jobs/materialized-views";
 import { createIndexes } from "./create-indexes";
 
-checkDbConnection();
+testDatabaseConnection();
 setupCronJobs();
 
 if (process.env.NODE_ENV === "production") {
