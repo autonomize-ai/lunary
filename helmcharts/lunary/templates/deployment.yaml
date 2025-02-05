@@ -37,7 +37,7 @@ spec:
               value: {{ .Values.global.environment }}
           envFrom:
             - configMapRef:
-                name: lunary
+                name: lunary-frontend
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
 {{- end }}
@@ -87,7 +87,7 @@ spec:
             #       value: {{ .Values.backend.databaseUrl }}
           envFrom:
             - configMapRef:
-                name: lunary
+                name: lunary-backend
           resources:
             {{- toYaml .Values.backend.resources | nindent 12 }}
 {{- end }}
