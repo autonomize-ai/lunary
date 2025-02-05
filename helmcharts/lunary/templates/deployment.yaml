@@ -26,7 +26,9 @@ spec:
           command: ["/bin/sh", "-c"]
           args: 
             - |
-              npm run start:frontend
+              cd /app && \
+              npm run start:frontend || \
+              (echo "Failed to start frontend" && exit 1)
           ports:
             - name: http
               containerPort: 3000
@@ -65,7 +67,9 @@ spec:
           command: ["/bin/sh", "-c"]
           args: 
             - |
-              npm run start:backend
+              cd /app && \
+              npm run start:backend || \
+              (echo "Failed to start backend" && exit 1)
           ports:
             - name: http
               containerPort: 4000

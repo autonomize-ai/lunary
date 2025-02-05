@@ -2,6 +2,7 @@
   "name": "@lunary/backend",
   "main": "index.ts",
   "scripts": {
+    "start": "npm run start:backend",
     "start:backend": "tsx src/index.ts",
     "start:frontend": "cd ../frontend && npm run start",
     "start:realtime-evaluators": "tsx src/realtime-evaluators.ts",
